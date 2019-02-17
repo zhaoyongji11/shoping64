@@ -1,7 +1,7 @@
 <template>
   <div class="login-wrap">
     <el-form
-    class="login-from"
+      class="login-from"
       label-position="top"
       label-width="80px"
       :model="formdata"
@@ -11,25 +11,61 @@
         <el-input v-model="formdata.username"></el-input>
       </el-form-item>
       <el-form-item label="密码">
-        <el-input v-model="formdata. password"></el-input>
+        <el-input v-model="formdata.password"></el-input>
       </el-form-item>
-      <el-button type="success" class="login-btn">登录</el-button>
+      <el-button
+      @click.prevent = "handleLogin()"
+        type="success"
+        class="login-btn"
+      >登录</el-button>
     </el-form>
   </div>
 </template>
 
 <script>
 export default {
-  data() {
+  data () {
     return {
       formdata: {
-        username: "",
-        password: ""
+        username: '',
+        password: ''
       }
-    };
+    }
+  },
+  methods: {
+    handleLogin () {
+      this.$http.post(`login`, this.formdata)
+        .then(res => {
+          const {data:{data,meta:{msg,status}}} =res
+          if(status===200){
+
+          }else{
+             this.$message.error(msg);
+          }
+        })
+        .catch(err=>{
+
+        })
+    }
   }
-};
+}
 </script>
 
 <style>
+.login-wrap {
+  height: 100%;
+  background-color: #324152;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.login-from{
+  background-color: #fff;
+  border-radius: 5px;
+  width: 400px;
+  padding: 20px;
+}
+.login-btn{
+  width: 100%;
+}
 </style>
